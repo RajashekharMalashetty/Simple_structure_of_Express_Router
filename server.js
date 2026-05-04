@@ -51,15 +51,28 @@ const sessionOptions = {
 
 app.use(session(sessionOptions));
 app.use(flash());
+app.use((req, res, next) => {
+    res.locals.successMsg = req.flash("success");
+    res.locals.errorMsg = req.flash("error");
+    next();
+});
 
 app.get("/register", (req, res) => {
     let {name = "anaymous"} = req.query;
     req.session.name = name;
-    req.flash("success", "user registered successfully!");
+
+    if(name === "anonaymous"){
+        req.flash("error", "user not registered");    
+    }else{
+        req.flash("success", "user registered successfully!");
+    }
+    
     res.redirect("/hello");
 });
 
 app.get("/hello", (req, res) => {
+    res.locals.successMsg = req.flash("success");
+    res.locals.errorMsg = req.flash("error")
     res.render("page.ejs", {name: req.session.name, msg: req.flash("success")});
 });
 
