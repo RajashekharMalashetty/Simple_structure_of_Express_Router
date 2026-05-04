@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const users = require("./routes/user.js");
 const posts = require("./routes/post.js");
+
 // const cookieParser = require("cookie-parser");
 
 // app.use(cookieParser("secretcode"));
@@ -40,7 +41,7 @@ const flash = require("connect-flash");
 const path = require("path");
 
 app.set("view engine", "ejs");
-app.set("views", Path2D.join(__dirname, "views"));
+app.set("views", path.join(__dirname, "views"));
 
 const sessionOptions = {
     secret: "mysupersecretstring",
@@ -55,11 +56,11 @@ app.get("/register", (req, res) => {
     let {name = "anaymous"} = req.query;
     req.session.name = name;
     req.flash("success", "user registered successfully!");
-    res.send(name);
+    res.redirect("/hello");
 });
 
-app.get("/help", (req, res) => {
-    res.render("page.ejs", {name: req.session.name, msg : req.flash("success")});
+app.get("/hello", (req, res) => {
+    res.render("page.ejs", {name: req.session.name, msg: req.flash("success")});
 });
 
 // app.get("/reqcount", (req, res) => {
