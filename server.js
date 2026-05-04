@@ -58,7 +58,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/register", (req, res) => {
-    let {name = "anaymous"} = req.query;
+    let {name = "anonaymous"} = req.query;
     req.session.name = name;
 
     if(name === "anonaymous"){
@@ -71,9 +71,7 @@ app.get("/register", (req, res) => {
 });
 
 app.get("/hello", (req, res) => {
-    res.locals.successMsg = req.flash("success");
-    res.locals.errorMsg = req.flash("error")
-    res.render("page.ejs", {name: req.session.name, msg: req.flash("success")});
+    res.render("page.ejs", {name: req.session.name});
 });
 
 // app.get("/reqcount", (req, res) => {
